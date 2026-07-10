@@ -1,4 +1,4 @@
-;; kami-engine-sdk-clj — KAMI Engine Clojure SDK (clj + Datomic + WebGPU)
+;; kami-engine-sdk — KAMI Engine Clojure SDK (clj + Datomic + WebGPU)
 ;; See ARCHITECTURE.md. clj is the brain; kami-render (Rust/wgpu) is the GPU arm.
 ;;
 ;; Datomic flavor is an open question (ADR-CLJ-02 / §13). The schema and kami.db
@@ -20,7 +20,7 @@
                            org.clojure/tools.namespace {:mvn/version "1.5.0"}}
              :jvm-opts    ["--add-opens=java.base/java.nio=ALL-UNNAMED"
                            "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]
-             :main-opts   ["-e" "(println \"kami-engine-sdk-clj dev REPL — see ARCHITECTURE.md §12\")"]}
+             :main-opts   ["-e" "(println \"kami-engine-sdk dev REPL — see ARCHITECTURE.md §12\")"]}
 
   ;; Real-datalevin round-trip: connect → tx → snapshot → ECS → render-IR → pack → commit
   :roundtrip {:extra-paths ["dev"]
