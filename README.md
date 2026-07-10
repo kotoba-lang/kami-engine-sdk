@@ -1,4 +1,9 @@
-# kami-engine-sdk-clj
+> **Renamed 2026-07-10 (ADR-2607102200 addendum):** `kotoba-lang/kami-engine-sdk` → `kotoba-lang/kami-engine-sdk`
+> (`-clj` suffix dropped — this is the only engine SDK). The former Svelte package
+> that briefly held the name `kami-engine-sdk` was renamed to
+> `kami-engine-sdk-svelte` and then **archived / pruned**.
+
+# kami-engine-sdk
 
 KAMI Engine's Clojure/ClojureScript authoring SDK: author KAMI scenes, ECS,
 and render pipelines in **Clojure/ClojureScript** with **Datomic-flavored
@@ -33,7 +38,7 @@ In short:
 
 This repository was split out of
 [`kotoba-lang/kami-engine`](https://github.com/kotoba-lang/kami-engine)'s
-`kami-engine-sdk-clj/` subtree, following the same pattern previously used to
+`kami-engine-sdk/` subtree, following the same pattern previously used to
 split `kami-mangaka-genko-clj` into
 [`kotoba-lang/kami-genko`](https://github.com/kotoba-lang/kami-genko). This
 was a live, working Clojure project inside the monorepo — not a restoration
@@ -47,7 +52,7 @@ embeds). Do not confuse the two:
 
 | Repo | What it is |
 |---|---|
-| `kotoba-lang/kami-engine-sdk-clj` (this repo) | Clojure/ClojureScript scene/ECS/render-IR/WIT contract SDK for kami-engine |
+| `kotoba-lang/kami-engine-sdk` (this repo) | Clojure/ClojureScript scene/ECS/render-IR/WIT contract SDK for kami-engine |
 | `kotoba-lang/kami-engine-sdk` | Svelte 5 UI component library mirror (unrelated) |
 
 ## Status
