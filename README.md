@@ -43,6 +43,12 @@ In short:
   a manifest and reduced-CI scenario that can be consumed unchanged by Studio,
   browser, native, and headless runners. `deterministic-digest` is a portable
   replay/correctness marker, not a cryptographic integrity hash.
+- **`kami.sample-manifest`** — pure-data M5 catalog authoring helpers. `scaffold`
+  creates schema-v2 EDN, `migrate-manifest` explicitly upgrades legacy v1 data,
+  and `valid?` checks capability, lifecycle, license, and public source/fork/
+  play/benchmark URLs. `valid-matrix?` gates 2D and 3D fixture coverage without
+  making performance or visual-quality claims. Persistence remains a Studio or
+  build-tool concern.
 - **`kami.network`** — the M2 multiplayer thin contract: versioned input
   envelopes, per-client authoritative sequence acceptance, tick/client/sequence
   total ordering, snapshots with acknowledgements, client reconciliation with
