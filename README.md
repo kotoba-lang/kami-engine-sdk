@@ -50,6 +50,14 @@ In short:
   pure-data transport seam, not a production socket stack or an 8-player
   performance claim. `resources/kami/samples/nightglass-strike-m2.edn` describes
   the reduced eight-bot contract fixture used by tests.
+- **`kami.world-partition` / `kami.avatar`** — M3 portable thin contracts.
+  World partition provides deterministic distance LOD, explicit cell lifecycle,
+  and nearest-first estimated-byte budget planning. Avatar provides a bounded
+  distance/capacity quality sweep plus ordered, idempotent RTC peer-state data.
+  The Ashen Kingdom and Dream Stage fixtures under `resources/kami/samples/`
+  are reduced contract checks only: no world-streaming throughput, VRM visual
+  quality, WebRTC concurrency, frame-time, or other performance result has yet
+  been measured.
 
 ## Origin
 
