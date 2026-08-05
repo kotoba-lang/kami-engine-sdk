@@ -114,6 +114,13 @@
                 result {:entities (:entities sample)
                         :frameTimeP95Ms p95 :memoryMaxMiB memory-max-mib
                         :frameTimesMs (vec frame-times-ms)
+                        ;; The run parameters this row was produced under. They
+                        ;; are on the plan sample and were dropped here, so a
+                        ;; consumer could not tell how long the numbers were
+                        ;; watched for or how much warmup preceded them — which
+                        ;; is exactly what makes two rows comparable or not.
+                        :warmupFrames (:warmupFrames sample)
+                        :durationMs (:durationMs sample)
                         :pass? (empty? violations) :violations violations}
                 results' (conj results result)]
             (if (seq violations)
