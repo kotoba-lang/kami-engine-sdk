@@ -70,6 +70,35 @@
     (is (= 100 (:saturationEntities result)))
     (is (= [:frame-time-p95] (-> result :results last :violations)))))
 
+(deftest saturation-rows-keep-the-readings-the-p95-came-from
+  ;; A p95 alone cannot say whether two runs differ by more than their own
+  ;; spread, so a row that drops its readings makes every downstream gate blind
+  ;; to the difference between a real change and noise.
+  (let [readings [8.0 9.0 8.5 9.5 8.2]
+        result (benchmark/run-saturation
+                (assoc performance-plan :dimension "2d")
+                (constantly {:frame-times-ms readings :memory-max-mib 64}))
+        row (-> result :results first)]
+    (is (= readings (:frameTimesMs row))
+        "the readings survive onto the row, in order")
+    (is (= (benchmark/percentile readings 0.95) (:frameTimeP95Ms row))
+        "and the p95 still is the p95 of exactly those readings")
+    (is (< 1 (count (distinct (:frameTimesMs row))))
+        "a spread the gate can actually measure")))
+
+(deftest kept-readings-do-not-change-what-a-row-already-said
+  ;; Additive on purpose: the schema stays v1 because every reader names the
+  ;; keys it needs, and this must not become a reason to re-verify them.
+  (let [result (benchmark/run-saturation
+                (assoc performance-plan :dimension "2d")
+                (constantly {:frame-times-ms [5.0 6.0] :memory-max-mib 64}))
+        row (-> result :results first)]
+    (is (= "kami.performance-result/v1" (:schema result)))
+    (is (= 6.0 (:frameTimeP95Ms row)))
+    (is (= 64 (:memoryMaxMiB row)))
+    (is (true? (:pass? row)))
+    (is (= [] (:violations row)))))
+
 (deftest saturation-runner-reports-the-tested-ceiling
   (let [result (benchmark/run-saturation
                 (assoc performance-plan :dimension "2d")

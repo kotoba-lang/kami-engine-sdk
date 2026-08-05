@@ -87,7 +87,16 @@
 
   `measure-sample` receives one plan sample and returns
   `{:frame-times-ms [...] :memory-max-mib n}`. The runner computes p95 itself,
-  records every attempted load, and stops at the first budget violation."
+  records every attempted load, and stops at the first budget violation.
+
+  Each result row keeps `:frameTimesMs` — the readings the p95 was taken from,
+  not just the p95. A single reduced number cannot answer whether two runs
+  differ by more than their own spread, so discarding the readings here makes
+  every downstream gate unable to tell a real change from noise, no matter how
+  carefully it is written (`kotoba-lang/perfgate` refuses such a claim as
+  `:insufficient-samples`). Keeping them is additive: the schema stays
+  `kami.performance-result/v1` because readers name the keys they need, and
+  nothing that read a row before reads differently now."
   [plan measure-sample]
   (valid-performance-plan? plan)
   (let [{:keys [frameTimeP95Ms memoryMaxMiB]} (:budgets plan)]
@@ -104,6 +113,7 @@
                              (> memory-max-mib memoryMaxMiB) (conj :memory-max))
                 result {:entities (:entities sample)
                         :frameTimeP95Ms p95 :memoryMaxMiB memory-max-mib
+                        :frameTimesMs (vec frame-times-ms)
                         :pass? (empty? violations) :violations violations}
                 results' (conj results result)]
             (if (seq violations)
