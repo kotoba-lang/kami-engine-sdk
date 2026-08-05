@@ -86,6 +86,20 @@
     (is (< 1 (count (distinct (:frameTimesMs row))))
         "a spread the gate can actually measure")))
 
+(deftest rows-carry-the-run-parameters-they-were-produced-under
+  ;; A consumer needs these to know whether two rows are comparable, and they
+  ;; were being dropped: isekai.gap-evidence requires :warmupFrames and
+  ;; :durationMs to build a cohort, so a real capture could not be ingested at
+  ;; all — only a hand-written fixture that happened to include them.
+  (let [plan (assoc performance-plan :dimension "2d")
+        result (benchmark/run-saturation
+                plan (constantly {:frame-times-ms [5.0 6.0] :memory-max-mib 64}))
+        row (-> result :results first)
+        sample (-> plan :samples first)]
+    (is (= (:warmupFrames sample) (:warmupFrames row)))
+    (is (= (:durationMs sample) (:durationMs row)))
+    (is (every? some? [(:warmupFrames row) (:durationMs row)]))))
+
 (deftest kept-readings-do-not-change-what-a-row-already-said
   ;; Additive on purpose: the schema stays v1 because every reader names the
   ;; keys it needs, and this must not become a reason to re-verify them.
