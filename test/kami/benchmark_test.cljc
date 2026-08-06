@@ -122,6 +122,57 @@
     (is (nil? (:warmupEndedBy row)))
     (is (= 6.0 (:frameTimeP95Ms row)))))
 
+(def interval-plan
+  (assoc-in (assoc performance-plan :dimension "2d")
+            [:budgets :frameIntervalP95Ms] 16.7))
+
+(deftest a-slow-frame-interval-violates-even-when-cpu-submit-is-fast
+  ;; The case that broke the royale ramp: cpu-submit stayed ~5ms at every load
+  ;; while the interval reached 1667ms, so nothing ever violated and the ramp
+  ;; reported its own ceiling as the saturation point.
+  (let [result (benchmark/run-saturation
+                interval-plan
+                (constantly {:frame-times-ms [5.0 5.0 5.0]
+                             :frame-intervals-ms [900.0 1000.0 1100.0]
+                             :memory-max-mib 64}))
+        row (-> result :results first)]
+    (is (= :violated (:status result)))
+    (is (= [:frame-interval-p95] (:violations row)))
+    (is (= 5.0 (:frameTimeP95Ms row)) "cpu-submit was inside its budget")
+    (is (= 1100.0 (:frameIntervalP95Ms row)))))
+
+(deftest a-fast-interval-passes
+  (let [row (-> (benchmark/run-saturation
+                 interval-plan
+                 (constantly {:frame-times-ms [5.0 5.0]
+                              :frame-intervals-ms [12.0 13.0]
+                              :memory-max-mib 64}))
+                :results first)]
+    (is (true? (:pass? row)))
+    (is (= 13.0 (:frameIntervalP95Ms row)))))
+
+(deftest an-adapter-without-intervals-behaves-exactly-as-before
+  ;; Additive: the interval budget only applies when the adapter reports one.
+  (let [result (benchmark/run-saturation
+                interval-plan
+                (constantly {:frame-times-ms [5.0 6.0] :memory-max-mib 64}))
+        row (-> result :results first)]
+    (is (true? (:pass? row)))
+    (is (nil? (:frameIntervalP95Ms row)))
+    (is (nil? (:frameIntervalsMs row)))))
+
+(deftest a-plan-without-an-interval-budget-ignores-reported-intervals
+  ;; Reporting a metric is not the same as budgeting it.
+  (let [row (-> (benchmark/run-saturation
+                 (assoc performance-plan :dimension "2d")
+                 (constantly {:frame-times-ms [5.0]
+                              :frame-intervals-ms [5000.0]
+                              :memory-max-mib 64}))
+                :results first)]
+    (is (true? (:pass? row)))
+    (is (= 5000.0 (:frameIntervalP95Ms row)) "recorded")
+    (is (= [] (:violations row)) "but not budgeted")))
+
 (deftest kept-readings-do-not-change-what-a-row-already-said
   ;; Additive on purpose: the schema stays v1 because every reader names the
   ;; keys it needs, and this must not become a reason to re-verify them.

@@ -99,20 +99,35 @@
   nothing that read a row before reads differently now."
   [plan measure-sample]
   (valid-performance-plan? plan)
-  (let [{:keys [frameTimeP95Ms memoryMaxMiB]} (:budgets plan)]
+  (let [{:keys [frameTimeP95Ms frameIntervalP95Ms memoryMaxMiB]} (:budgets plan)]
     (loop [remaining (:samples plan) results []]
       (if-let [sample (first remaining)]
-        (let [{:keys [frame-times-ms memory-max-mib] :as measured}
+        (let [{:keys [frame-times-ms frame-intervals-ms memory-max-mib] :as measured}
               (measure-sample sample)]
           (when-not (and (seq frame-times-ms) (every? number? frame-times-ms)
                          (number? memory-max-mib) (not (neg? memory-max-mib)))
             (fail "measurement adapter returned invalid data" {:measurement measured}))
           (let [p95 (percentile frame-times-ms 0.95)
+                ;; The interval between frames, when the adapter reports it. This
+                ;; is what a "60fps" budget is about: `frame-times-ms` is CPU
+                ;; submit cost, which excludes GPU execution and pacing and
+                ;; therefore barely grows with load. Budgeting the wrong one is
+                ;; how a saturation ramp runs to its ceiling and reports the
+                ;; ceiling as the saturation point.
+                interval-p95 (when (and (seq frame-intervals-ms)
+                                        (every? number? frame-intervals-ms))
+                               (percentile frame-intervals-ms 0.95))
                 violations (cond-> []
                              (> p95 frameTimeP95Ms) (conj :frame-time-p95)
+                             (and interval-p95 frameIntervalP95Ms
+                                  (> interval-p95 frameIntervalP95Ms))
+                             (conj :frame-interval-p95)
                              (> memory-max-mib memoryMaxMiB) (conj :memory-max))
                 result {:entities (:entities sample)
                         :frameTimeP95Ms p95 :memoryMaxMiB memory-max-mib
+                        :frameIntervalP95Ms interval-p95
+                        :frameIntervalsMs (when (seq frame-intervals-ms)
+                                            (vec frame-intervals-ms))
                         :frameTimesMs (vec frame-times-ms)
                         ;; The run parameters this row was produced under. They
                         ;; are on the plan sample and were dropped here, so a
