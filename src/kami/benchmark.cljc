@@ -121,6 +121,13 @@
                         ;; is exactly what makes two rows comparable or not.
                         :warmupFrames (:warmupFrames sample)
                         :durationMs (:durationMs sample)
+                        ;; How warmup actually ended, when the adapter says so.
+                        ;; A warmup cut short by a wall-clock ceiling may not have
+                        ;; reached steady state, and a row that hides that is a
+                        ;; row nobody can compare safely.
+                        :warmupEndedBy (:warmup-ended-by measured)
+                        :warmupFramesRun (:warmup-frames-run measured)
+                        :warmupMs (:warmup-ms measured)
                         :pass? (empty? violations) :violations violations}
                 results' (conj results result)]
             (if (seq violations)

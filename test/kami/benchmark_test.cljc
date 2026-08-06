@@ -100,6 +100,28 @@
     (is (= (:durationMs sample) (:durationMs row)))
     (is (every? some? [(:warmupFrames row) (:durationMs row)]))))
 
+(deftest rows-carry-how-warmup-ended-when-the-adapter-reports-it
+  ;; A warmup cut short by a wall-clock ceiling may not be at steady state.
+  ;; Hiding that makes the row look comparable with rows that were.
+  (let [plan (assoc performance-plan :dimension "2d")
+        with (benchmark/run-saturation
+              plan (constantly {:frame-times-ms [5.0 6.0] :memory-max-mib 64
+                                :warmup-ended-by "time" :warmup-frames-run 12
+                                :warmup-ms 5000.0}))
+        row (-> with :results first)]
+    (is (= "time" (:warmupEndedBy row)))
+    (is (= 12 (:warmupFramesRun row)))
+    (is (= 5000.0 (:warmupMs row)))))
+
+(deftest an-adapter-that-reports-no-warmup-outcome-still-works
+  ;; Optional: adapters predating this carry on unchanged.
+  (let [row (-> (benchmark/run-saturation
+                 (assoc performance-plan :dimension "2d")
+                 (constantly {:frame-times-ms [5.0 6.0] :memory-max-mib 64}))
+                :results first)]
+    (is (nil? (:warmupEndedBy row)))
+    (is (= 6.0 (:frameTimeP95Ms row)))))
+
 (deftest kept-readings-do-not-change-what-a-row-already-said
   ;; Additive on purpose: the schema stays v1 because every reader names the
   ;; keys it needs, and this must not become a reason to re-verify them.
