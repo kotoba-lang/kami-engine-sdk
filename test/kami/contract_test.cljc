@@ -15,7 +15,6 @@
             [kami.postfx :as postfx]
             [kami.physics-compute :as physics]
             [kami.fsm    :as fsm]
-            [kami.input  :as input]
             [kami.math   :as m]))
 
 ;; --- fixtures ---------------------------------------------------------------
@@ -362,31 +361,7 @@
 (deftest fsm-reachable-states-from-initial
   (is (= #{:idle :running :paused} (fsm/reachable-states guard-fsm))))
 
-;; --- input action maps (Phase 1.2) ------------------------------------------
-
-(def input-table
-  {:axes    [{:axis :move-x :positive :d :negative :a :scale 1.0}
-             {:axis :move-y :positive :w :negative :s :scale 1.0}]
-   :actions [{:action :fire :keys #{:space :j}}]
-   :triggers {:jump :space}})
-
-(deftest input-axes-from-held
-  (testing "single direction"
-    (is (= {:move-x 1.0 :move-y 0.0} (input/action-axes #{:d} input-table))))
-  (testing "mutual cancellation (both held → 0)"
-    (is (= {:move-x 0.0 :move-y 0.0} (input/action-axes #{:a :d} input-table))))
-  (testing "diagonal"
-    (is (= {:move-x -1.0 :move-y 1.0} (input/action-axes #{:a :w} input-table)))))
-
-(deftest input-active-actions
-  (is (contains? (input/active-actions #{:space} input-table) :fire))
-  (is (empty? (input/active-actions #{:k} input-table))))
-
-(deftest input-triggered-edge
-  (testing "trigger fires only on the rising edge"
-    (is (contains? (input/triggered-actions #{:space} #{} input-table) :space))
-    (is (empty? (input/triggered-actions #{:space} #{:space} input-table)))))
-
-(deftest input-merge-held-press-release
-  (is (= #{:a :d} (input/merge-held #{:a} {:press #{:d}})))
-  (is (= #{:a}   (input/merge-held #{:a :d} {:release #{:d}}))))
+;; The `kami.input` action-map tests that used to close this file were removed with
+;; the namespace itself. `kami.input` is owned by kotoba-lang/host, which every app
+;; that actually wires input already depends on; this repo's copy had no consumer
+;; other than these tests. See the deletion commit for the full argument.
