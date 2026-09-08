@@ -3,7 +3,7 @@
   WGSL ray-query emission, per-backend lowering (emit vs delegate vs nda), and a
   CPU reference intersector that pins the trace *semantics* without a GPU."
   (:require [clojure.test :refer [deftest testing is]]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [kami.rt :as rt]))
 
 (deftest validation
