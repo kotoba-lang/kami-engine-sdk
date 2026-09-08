@@ -1,7 +1,7 @@
 (ns kami.sample-manifest
   "Pure data helpers for authoring and validating the public sample catalog."
   (:require [clojure.set :as set]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [kami.benchmark :as benchmark]))
 
 (def schema-version 2)
