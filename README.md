@@ -110,7 +110,7 @@ breakage.
 
 What does still reference the original monorepo (not exercised by `:test`,
 documented rather than fixed here per the migration plan):
-- `dev/gen_fixture.clj` / `dev/gen_demo.clj` write cross-language fixtures
+- `dev/gen_fixture.cljk` / `dev/gen_demo.cljk` write cross-language fixtures
   intended for `../kami-clj-host/tests/fixtures/` and `../kami-clj-host/demo/`
   in the monorepo — those paths do not exist in this standalone repo.
 - `ARCHITECTURE.md` §12's Rust build/test steps (`kami-clj-host`,

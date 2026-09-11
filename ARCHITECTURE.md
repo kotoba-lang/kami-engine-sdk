@@ -12,7 +12,7 @@ Status: **design + working core + GPU bridge** (2026-06-13). Verified slices:
   61 assertions, all green** (§12).
 - **Datomic two-layer** — full round-trip against a *real datalevin store*
   (connect → tx → snapshot → ECS → render-IR → pack → commit, with ref resolution
-  and persistence): `clojure -M:roundtrip` (`dev/roundtrip.clj`).
+  and persistence): `clojure -M:roundtrip` (`dev/roundtrip.cljk`).
 - **clj ↔ Rust GPU bridge** — the Rust host `../kami-clj-host` decodes the *exact
   bytes* `kami.ipc/pack` emits (cross-language fixture `frame.bin`): **4 Rust
   tests green** (`cargo test -p kami-clj-host`). Its wasm-bindgen + wgpu GPU host
@@ -65,7 +65,7 @@ is the正本 for the SDK's boundaries; it is the clj-side sibling of the engine'
 ┌──────────────────────────────────────────────────────────────────────┐
 │ L5  Game / authoring (your code)                                       │
 │     scenes as Datomic tx-data · systems as pure fns over ECS snapshot  │
-│     examples/hello_scene.cljc                                          │
+│     examples/hello_scene.cljk                                          │
 └───────────────┬──────────────────────────────────────────────────────┘
                 ▼
 ┌──────────────────────────────────────────────────────────────────────┐
