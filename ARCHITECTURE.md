@@ -12,7 +12,7 @@ Status: **design + working core + GPU bridge** (2026-06-13). Verified slices:
   61 assertions, all green** (§12).
 - **Datomic two-layer** — full round-trip against a *real datalevin store*
   (connect → tx → snapshot → ECS → render-IR → pack → commit, with ref resolution
-  and persistence): `clojure -M:roundtrip` (`dev/roundtrip.cljk`).
+  and persistence): `kbb -M:roundtrip` (`dev/roundtrip.cljk`).
 - **clj ↔ Rust GPU bridge** — the Rust host `../kami-clj-host` decodes the *exact
   bytes* `kami.ipc/pack` emits (cross-language fixture `frame.bin`): **4 Rust
   tests green** (`cargo test -p kami-clj-host`). Its wasm-bindgen + wgpu GPU host
@@ -365,7 +365,7 @@ with no DB at all.
 
 ```bash
 # 1. JVM authoring (Datomic source of truth, datalevin by default)
-clj -M:dev                       # REPL
+kbb -M:dev                       # REPL
 #   (require '[kami.db :as db] '[kami.scene :as scene])
 #   (def conn (db/connect "/tmp/kami-db"))     ; datalevin dir
 #   @(db/transact! conn my-scene-tx)
@@ -377,20 +377,20 @@ wasm-pack build --target web --features host   # → pkg/kami_clj_host.js + _bg.
 
 # 3. Browser runtime (ClojureScript → kami-clj-host WASM → kami-render → WebGPU)
 cd ../kami-engine-sdk-clj
-clj -M:shadow watch app          # shadow-cljs build :app
+kbb -M:shadow watch app          # shadow-cljs build :app
 #   import KamiCljHost from kami-clj-host pkg, then:
 #   (go (kami.sim/run! {:canvas "c" :snapshot snap
 #                       :backend (<! (browser/make {:canvas "c"})) :systems [...]}))
 
 # ── Verification (all runnable headless) ──────────────────────────────────
 # clj contract layer — 16 tests / 61 assertions
-clojure -Sdeps '{:paths ["src" "test"]}' \
+kbb -Sdeps '{:paths ["src" "test"]}' \
   -M -e "(require '[clojure.test :as t] 'kami.contract-test 'kami.runtime-test) \
          (t/run-tests 'kami.contract-test 'kami.runtime-test)"
 # real-datalevin round-trip (connect→tx→snapshot→ecs→render-IR→pack→commit)
-clj -M:roundtrip
+kbb -M:roundtrip
 # regenerate the cross-language fixture after a format change
-clojure -Sdeps '{:paths ["src" "dev"]}' -M -m gen-fixture
+kbb -Sdeps '{:paths ["src" "dev"]}' -M -m gen-fixture
 # Rust decoder cross-language contract — 4 tests
 ( cd .. && cargo test -p kami-clj-host --target aarch64-apple-darwin )
 # Rust GPU host compiles for wasm

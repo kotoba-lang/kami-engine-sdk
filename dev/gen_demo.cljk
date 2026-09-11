@@ -6,7 +6,7 @@
   KamiCljHost.submit_frame(frame.json, frame.bin) to prove the full Rust GPU path
   (bootstrap → decode → instanced draw → present) on real WebGPU — no CLJS runtime.
 
-  Run: clojure -Sdeps '{:paths [\"src\" \"dev\"]}' -M -m gen-demo <out-dir>"
+  Run: kbb -Sdeps '{:paths [\"src\" \"dev\"]}' -M -m gen-demo <out-dir>"
   (:require [kami.scene  :as scene]
             [kami.ecs    :as ecs]
             [kami.render :as render]

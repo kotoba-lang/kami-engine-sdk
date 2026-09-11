@@ -124,15 +124,15 @@ documented rather than fixed here per the migration plan):
 ## Running tests
 
 ```bash
-clojure -M:test
+kbb -M:test
 ```
 
 Verified on this standalone repo: **66 tests / 308 assertions, 0 failures,
 0 errors.**
 
 Other aliases (see `deps.edn`):
-- `clj -M:dev` — JVM authoring REPL (Datomic/datalevin source of truth)
-- `clj -M:roundtrip` — real-datalevin round-trip (connect → tx → snapshot →
+- `kbb -M:dev` — JVM authoring REPL (Datomic/datalevin source of truth)
+- `kbb -M:roundtrip` — real-datalevin round-trip (connect → tx → snapshot →
   ECS → render-IR → pack → commit)
-- `clj -M:shadow watch app` — browser ClojureScript build (needs a
+- `kbb -M:shadow watch app` — browser ClojureScript build (needs a
   `shadow-cljs.edn` build config, not included in this split)

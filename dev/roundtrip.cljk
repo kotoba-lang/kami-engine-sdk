@@ -2,7 +2,7 @@
   "End-to-end round-trip against a REAL datalevin store (no GPU):
    connect → transact schema+scene → snapshot → as-of undo →
    ecs/load → render/frame → ipc/pack.
-  Run: clojure -Sdeps '{:paths [\"src\" \"dev\"] :deps {datalevin/datalevin {:mvn/version \"0.9.22\"}}}' -M -m roundtrip"
+  Run: kbb -Sdeps '{:paths [\"src\" \"dev\"] :deps {datalevin/datalevin {:mvn/version \"0.9.22\"}}}' -M -m roundtrip"
   (:require [kami.db     :as db]
             [kami.scene  :as scene]
             [kami.ecs    :as ecs]
