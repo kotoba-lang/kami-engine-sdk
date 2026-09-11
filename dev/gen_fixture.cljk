@@ -3,7 +3,7 @@
   decoder (kami-clj-host) can prove it parses the exact bytes kami.ipc/pack emits.
   This is the cross-language contract anchor for the clj brain ↔ Rust GPU arm.
 
-  Run: clojure -Sdeps '{:paths [\"src\" \"dev\"]}' -M -m gen-fixture <out-path>"
+  Run: kbb -Sdeps '{:paths [\"src\" \"dev\"]}' -M -m gen-fixture <out-path>"
   (:require [kami.scene  :as scene]
             [kami.ecs    :as ecs]
             [kami.render :as render]
