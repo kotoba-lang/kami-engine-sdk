@@ -4,7 +4,7 @@
   These pin the clj ↔ Rust contracts (ARCHITECTURE.md §7/§9) so they can be
   validated long before a GPU is wired up."
   (:require [kotoba.test :refer [deftest testing is]]
-            #?(:clj [clojure.edn :as edn])
+            #?(:clj [kotoba.lang.edn :as edn])
             #?(:clj [clojure.java.io :as io])
             [kami.scene  :as scene]
             [kami.ecs    :as ecs]
