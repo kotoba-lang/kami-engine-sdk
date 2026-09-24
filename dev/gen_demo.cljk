@@ -12,7 +12,7 @@
             [kami.render :as render]
             [kami.ipc    :as ipc]
             [clojure.java.io :as io]
-            [clojure.data.json :as json]))
+            [kotoba.json :as json]))
 
 (def snap
   (scene/build-snapshot
