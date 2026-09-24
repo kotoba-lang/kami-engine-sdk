@@ -3,7 +3,7 @@
   using a mock IGpuBackend that records calls. Proves the loop wiring —
   defsystem → step → render-IR → pack → submit, asset registration, and the
   commit-on-save path — without a real GPU."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [kotoba.test :refer [deftest testing is]]
             [kami.scene :as scene]
             [kami.ecs   :as ecs]
             [kami.gpu   :as gpu]

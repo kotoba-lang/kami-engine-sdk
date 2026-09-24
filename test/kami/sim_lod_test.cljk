@@ -1,5 +1,5 @@
 (ns kami.sim-lod-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [kami.sim-lod :as sim-lod]))
 
 (def actors
