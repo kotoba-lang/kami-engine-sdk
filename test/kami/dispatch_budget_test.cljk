@@ -20,7 +20,7 @@
   coarse-grain is already pinned by `kami.schedule-test`; this namespace pins
   the multi-tick dispatch budget — the budget grows linearly with tick count,
   never with tick-count × entity-count."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [kotoba.test :refer [deftest testing is]]
             [kami.ecs      :as ecs]
             [kami.schedule :as sched]))
 

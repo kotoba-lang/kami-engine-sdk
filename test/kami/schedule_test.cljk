@@ -3,7 +3,7 @@
   receives ONLY entities matching its `:query`, the runner threads `world` in
   `:order`, and the runner itself does NOT loop per-entity (it hands the whole
   queried seq to the system fn once). See ADR-2607010930."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [kotoba.test :refer [deftest testing is]]
             [kami.ecs      :as ecs]
             [kami.schedule :as sched]))
 

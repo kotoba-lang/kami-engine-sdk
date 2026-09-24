@@ -2,7 +2,7 @@
   "GPU-free contract tests for kami.rt: recipe validation, IR normalization,
   WGSL ray-query emission, per-backend lowering (emit vs delegate vs nda), and a
   CPU reference intersector that pins the trace *semantics* without a GPU."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [kotoba.test :refer [deftest testing is]]
             [kotoba.lang.text :as str]
             [kami.rt :as rt]))
 

@@ -1,5 +1,5 @@
 (ns kami.sample-manifest-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [kami.sample-manifest :as manifest]))
 
 (def urls

@@ -3,7 +3,7 @@
   render-IR → KAMI columnar packing, plus WGSL emission and matrix math.
   These pin the clj ↔ Rust contracts (ARCHITECTURE.md §7/§9) so they can be
   validated long before a GPU is wired up."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [kotoba.test :refer [deftest testing is]]
             #?(:clj [clojure.edn :as edn])
             #?(:clj [clojure.java.io :as io])
             [kami.scene  :as scene]

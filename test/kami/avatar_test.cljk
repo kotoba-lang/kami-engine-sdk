@@ -1,5 +1,5 @@
 (ns kami.avatar-test
-  (:require [clojure.test :refer [deftest is]]
+  (:require [kotoba.test :refer [deftest is]]
             [kami.avatar :as avatar]))
 
 (deftest reduced-avatar-quality-sweep
