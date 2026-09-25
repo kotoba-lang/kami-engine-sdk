@@ -24,6 +24,6 @@
     (is (= [:a] (avatar/connected-peers room)))
     (is (= room duplicate))
     (is (= 4 (:rtc/revision room))))
-  (is (thrown? #?(:clj clojure.lang.ExceptionInfo :cljs js/Error)
+  (is (thrown? js/Error
                (avatar/update-peer (avatar/rtc-room)
                                    {:peer/id :a :peer/revision 0 :peer/state :connected}))))

@@ -5,7 +5,7 @@
   ids. Rust/wgpu remains the executor for :kami-render/scene-pipeline entries;
   policy above that adapter boundary lives here."
   #?(:clj (:require [kotoba.lang.edn :as edn]
-                    [clojure.java.io :as io])))
+                    [kotoba.io :as io])))
 
 (def authority-edn
   {:authority/id :kami.render/authority

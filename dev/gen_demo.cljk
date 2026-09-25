@@ -11,7 +11,7 @@
             [kami.ecs    :as ecs]
             [kami.render :as render]
             [kami.ipc    :as ipc]
-            [clojure.java.io :as io]
+            [kotoba.io :as io]
             [kotoba.json :as json]))
 
 (def snap

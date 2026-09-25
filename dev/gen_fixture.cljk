@@ -8,7 +8,7 @@
             [kami.ecs    :as ecs]
             [kami.render :as render]
             [kami.ipc    :as ipc]
-            [clojure.java.io :as io]))
+            [kotoba.io :as io]))
 
 (def cam  #uuid "00000000-0000-0000-0000-0000000000ca")
 (def t1   #uuid "00000000-0000-0000-0000-00000000000a")
