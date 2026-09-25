@@ -29,6 +29,6 @@
     (is (= 0 (get-in loaded [:partition/resident-lod :origin])))
     (is (= :unloaded (get-in evicted [:partition/lifecycle :origin])))
     (is (nil? (get-in evicted [:partition/resident-lod :origin]))))
-  (is (thrown? #?(:clj clojure.lang.ExceptionInfo :cljs js/Error)
+  (is (thrown? js/Error
                (world/transition (world/initial-state cells) :origin
                                  {:event/type :load-ok :lod 0}))))

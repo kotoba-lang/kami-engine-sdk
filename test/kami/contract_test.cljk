@@ -5,7 +5,7 @@
   validated long before a GPU is wired up."
   (:require [kotoba.test :refer [deftest testing is]]
             #?(:clj [kotoba.lang.edn :as edn])
-            #?(:clj [clojure.java.io :as io])
+            #?(:clj [kotoba.io :as io])
             [kami.scene  :as scene]
             [kami.ecs    :as ecs]
             [kami.render :as render]
