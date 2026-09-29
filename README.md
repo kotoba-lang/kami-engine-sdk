@@ -118,7 +118,7 @@ documented rather than fixed here per the migration plan):
   here.
 - `ARCHITECTURE.md` itself is the clj-side sibling of `kami-engine`'s
   top-level `ARCHITECTURE.md` and references `../kami-clj`, `../kami-render`,
-  `../kami-core`, `../CLAUDE.md`, etc. — all relative to the original
+  `../kami-core`, `../AGENTS.md`, etc. — all relative to the original
   monorepo layout.
 
 ## Running tests
