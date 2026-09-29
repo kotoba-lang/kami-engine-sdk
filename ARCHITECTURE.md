@@ -429,7 +429,7 @@ IR is serializable for record/replay/golden tests (§7).
 ---
 
 ## 14. Prohibitions inherited from KAMI Engine
-(see `../CLAUDE.md` — they apply to clj-authored scenes too)
+(see `../AGENTS.md` — they apply to clj-authored scenes too)
 - **No Canvas 2D.** Rendering is wgpu via `kami-render` only.
 - **No bespoke renderer.** `kami-render` pipelines + clj-authored WGSL registered
   through §8 — nothing else.
